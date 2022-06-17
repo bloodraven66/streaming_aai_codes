@@ -1,0 +1,78 @@
+
+
+data:
+   rootPath: ../../data/
+   emaFolder: Neutral/EmaClean
+   wavFolder: Neutral/WavClean
+   mfccFolder: python_mfccs_v3_n13
+   alignFolder: Neutral/ForceAlign/
+   phonFile: ../../data/PhoneSetV2.npz
+   startStopFolder: ../../data/StartStopMat
+   subjects: '10'
+   path: ../data/preCompute/subjectPrecomputed
+   testMode: seen
+   nMFCC: 13
+   sampleRate: 22050
+   nfft: 512
+   hopLength: 256
+   filterLength: 1024
+   winLength: 1024
+   nMels: 80
+   fMin: 0.0
+   fMax: 8000.0
+   normalizeMel: True
+   numTestSubs: 0
+   phonPadMax: 60
+   emaPadMax: 400
+   phonPadValue: 0
+   emaPadValue: 0
+   store: False
+   load: True
+   normEma: True
+   normMFCC: True
+   phoneSequence: False
+   removeSil: True
+   tphnReduce: True
+   stdFrac: 0.25
+common:
+  infer: False
+  datasetName: SpireEmaEnglish
+  numEpochs: 100
+  device: 'cuda:1'
+  batch_size: 20
+  model: aai_enc_chunk_mem_transformer #aai_enc_chunk_transformer_future #aai_enc_chunk_mem_transformer, aai_transformer,  aai_enc_dec_chunk_transformer
+  lossfn: l1 #mse
+  verbose: True
+  scheduler: decay
+  expmode: mel #ema mel or both
+  expdetail: baselineSpID_l1
+  overallplot: False
+  ema_pretrained: savedModels/emaBaseline_1sub.pth
+  sub_embed: True
+  num_speakers: 10
+  chunk_size: 20   #(20 = 200ms)
+  decode_mask: True
+  decode_only: True
+  filter: True
+results:
+  plotFolder: outputs
+
+optimizer:
+  name: adam
+  lr: 1e-4
+  weightdecay: 1e-6
+
+earlystopper:
+  patience: 15
+  verbose: True
+  minRun: 5
+  delta: 0
+  checkpoint: ../savedModels/demo.pth
+  dynamic_name: True
+  reuse: False
+
+logging:
+  project_name: aai_streaming
+  notes:
+  tags:
+  run_name: 10sub
